@@ -8,7 +8,7 @@ SoulStranded 是一个基于前后端分离架构的 Web 应用，提供用户�
 
 ## 在线访问
 
-🌐 **线上地址**: https://www.soulstranded.top/
+🌐 **线上地址**: https://www.soulstranded.top
 
 可以直接访问上述网址体验完整功能。
 
