@@ -4,13 +4,13 @@
     "env.d.ts",
     "auto-imports.d.ts",
     "components.d.ts",
-    "src/**/*",
-    "src/**/*.vue"
+    "src/**/*"
   ],
   "exclude": [
     "src/**/__tests__/*"
   ],
   "compilerOptions": {
+    "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "paths": {
       "@/*": [
