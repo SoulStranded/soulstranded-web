@@ -56,6 +56,15 @@
             </div>
         </div>
 
+        <!-- 回到顶部 -->
+        <el-tooltip content="回到顶部" placement="left" :show-after="300">
+            <el-backtop class="back-to-top" :visibility-height="200" :right="30" :bottom="30">
+                <el-icon>
+                    <ArrowUp />
+                </el-icon>
+            </el-backtop>
+        </el-tooltip>
+
         <!-- 加载更多按钮 -->
         <div class="load-more-container" v-if="posts.length > 0">
             <el-button v-if="hasMore" class="load-more-btn" :loading="isLoading" @click="loadMore">
@@ -76,6 +85,7 @@ import CommentSection from '@/components/CommentSection.vue'
 import defaultAvatar from '@/assets/default-avatar.jpg'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
+import { ArrowUp } from '@element-plus/icons-vue'
 
 const posts = ref<Post[]>([])
 const isLoading = ref(false)
@@ -347,6 +357,24 @@ onMounted(() => {
 
 .no-more-data::after {
     background: linear-gradient(to left, transparent, #e0e0e0);
+}
+
+.back-to-top {
+    background-color: #fff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+    background-color: #f5f5f5;
+    color: #333;
+    transform: translateY(-2px);
+}
+
+.back-to-top .el-icon {
+    font-size: 20px;
 }
 
 /* 响应式设计 */
