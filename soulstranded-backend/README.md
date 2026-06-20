@@ -7,7 +7,7 @@ SoulStranded 后端服务，基于 Rust + Axum + SeaORM 构建的现代化 Web �
 - **语言**: Rust (Edition 2024)
 - **Web 框架**: Axum 0.8.8
 - **ORM**: SeaORM 1.1.19
-- **数据库**: SQLite
+- **数据库**: MySQL 8.0
 - **缓存**: Redis
 - **异步运行时**: Tokio 1.48.0
 - **认证**: JWT (jsonwebtoken 10.2.0)
@@ -55,7 +55,7 @@ src/
 
 ```env
 # 数据库连接配置
-DATABASE_URL=sqlite://data/soulstranded.db
+DATABASE_URL=mysql://your_username_or_root:your_password@127.0.0.1:3306/soulstranded
 
 # redis 连接配置
 REDIS_URL=redis://127.0.0.1:6379
@@ -83,7 +83,7 @@ AVATAR_UPLOAD_DIR=./uploads/avatars
 ### 前置要求
 
 - Rust 1.70+
-- SQLite 3+
+- MySQL 8.0+
 - Redis 6+
 
 ### 安装依赖
