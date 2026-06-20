@@ -178,6 +178,44 @@ cargo test
 cargo clippy
 ```
 
+## 部署
+
+项目提供一键部署脚本 [deploy.sh](./deploy.sh)，用于构建前后端并上传到远程服务器。
+
+### 前置要求
+
+- 本地已安装 `sshpass`
+- 本地已安装 Rust 工具链（`cargo`）和 Node.js/pnpm
+- 远程服务器已配置好 systemd 服务：`soulstranded-backend` 和 `nginx`
+- 远程服务器目标目录已存在：
+  - `/opt/soulstranded-backend/`
+  - `/var/www/soulstranded-frontend/`
+
+### 使用方法
+
+在项目根目录执行：
+
+```bash
+./deploy.sh <username> <password>
+```
+
+例如：
+
+```bash
+./deploy.sh root your_password
+```
+
+### 部署流程
+
+1. 使用 `cargo build --release` 构建后端
+2. 使用 `pnpm run build` 构建前端
+3. 通过 `sshpass` + `scp` 上传可执行文件和静态资源到远程服务器
+4. 远程重启 `soulstranded-backend` 和 `nginx` 服务
+
+### 安全建议
+
+当前脚本通过命令行参数传递服务器密码，仅适合个人或受信任环境使用。生产环境建议改用 SSH Key 认证，并移除 `sshpass` 和 `StrictHostKeyChecking=no` 相关逻辑。
+
 ## API 接口
 
 ### 认证相关
