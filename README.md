@@ -38,8 +38,7 @@ SoulStranded 是一个基于前后端分离架构的 Web 应用，提供用户�
 soulstranded/
 ├── soulstranded-frontend/    # 前端项目 (Vue 3 + TypeScript)
 ├── soulstranded-backend/     # 后端项目 (Rust + Axum)
-├── README.md                 # 项目说明文档
-└── deploy.sh                 # 部署脚本
+└── README.md                 # 项目说明文档
 ```
 
 ## 核心功能
@@ -208,34 +207,6 @@ cargo clippy
 
 详细的 API 文档请查看 [soulstranded-backend/README.md](./soulstranded-backend/README.md)
 
-## 部署
-
-### 手动部署
-
-进入项目根目录，执行部署脚本：
-
-```bash
-./deploy.sh
-```
-
-部署脚本会自动执行以下步骤：
-1. 拉取最新代码 (`git pull`)
-2. 构建后端 (`cargo build --release`)
-3. 构建前端 (`pnpm install --frozen-lockfile && pnpm run build`)
-4. 部署后端到 `/opt/soulstranded-backend/`
-5. 部署前端到 `/var/www/soulstranded-frontend`
-6. 重启后端服务 (`systemctl restart soulstranded-backend`)
-7. 重启 Nginx (`systemctl restart nginx`)
-
-### 前置要求
-
-部署前请确保：
-- 已安装 Rust 工具链
-- 已安装 Node.js 和 pnpm
-- 已配置 systemd 服务 (`soulstranded-backend`)
-- 已配置 Nginx 服务
-- 后端环境变量已正确配置
-
 ## 项目特色
 
 - **前后端分离**: 清晰的架构，独立开发和部署
@@ -243,7 +214,6 @@ cargo clippy
 - **现代化技术栈**: 采用最新的框架和工具
 - **完善的认证**: JWT 认证 + 密码加密
 - **响应式设计**: 支持多种设备
-- **一键部署**: 提供自动化部署脚本
 
 ## 开发规范
 
