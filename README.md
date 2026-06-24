@@ -27,7 +27,7 @@ SoulStranded 是一个基于前后端分离架构的 Web 应用，提供用户�
 - **语言**: Rust (Edition 2024)
 - **Web 框架**: Axum 0.8.8
 - **ORM**: SeaORM 1.1.19
-- **数据库**: SQLite
+- **数据库**: MySQL 8.0
 - **缓存**: Redis
 - **异步运行时**: Tokio 1.48.0
 - **认证**: JWT (jsonwebtoken 10.2.0)
@@ -75,7 +75,7 @@ soulstranded/
 
 - Node.js ^20.19.0 || >=22.12.0
 - Rust 1.70+
-- SQLite 3+
+- MySQL 8.0+
 - Redis 6+
 
 ### 安装依赖
@@ -97,7 +97,8 @@ cargo build
 #### 后端配置 (soulstranded-backend/.env)
 ```env
 # 数据库连接配置
-DATABASE_URL=sqlite://data/soulstranded.db
+# MySQL 连接字符串
+DATABASE_URL=mysql://your_username_or_root:your_password@127.0.0.1:3306/soulstranded
 
 # redis 连接配置
 REDIS_URL=redis://127.0.0.1:6379
