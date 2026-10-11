@@ -4,12 +4,12 @@
 
 ## 技术栈
 
-- **框架**: Vue 3.5.25
-- **语言**: TypeScript 5.9.0
+- **框架**: Vue 3.5.26
+- **语言**: TypeScript 5.9.3
 - **构建工具**: Vite 8.0.1
-- **UI 组件库**: Element Plus 2.12.0
+- **UI 组件库**: Element Plus 2.13.1
 - **状态管理**: Pinia 3.0.4
-- **路由**: Vue Router 4.6.3
+- **路由**: Vue Router 4.6.4
 - **HTTP 客户端**: Axios 1.13.2
 - **开发工具**: Vue DevTools
 
@@ -38,8 +38,9 @@
 
 ### 环境要求
 
-- Node.js ^20.19.0 || >=22.12.0
-- npm 或 yarn 或 pnpm
+- Node.js ^20.19.0 || >=22.12.0（mise 固定 24.21.0）
+- pnpm 12.4.1（推荐；也可用 npm / yarn）
+- 版本由 `mise.toml` 声明，执行 `mise install` 一键安装
 
 ### 安装依赖
 

@@ -15,12 +15,12 @@ SoulStranded 是一个基于前后端分离架构的 Web 应用，提供用户�
 ## 技术栈
 
 ### 前端 (soulstranded-frontend)
-- **框架**: Vue 3.5.25
-- **语言**: TypeScript 5.9.0
+- **框架**: Vue 3.5.26
+- **语言**: TypeScript 5.9.3
 - **构建工具**: Vite 8.0.1
-- **UI 组件库**: Element Plus 2.12.0
+- **UI 组件库**: Element Plus 2.13.1
 - **状态管理**: Pinia 3.0.4
-- **路由**: Vue Router 4.6.3
+- **路由**: Vue Router 4.6.4
 - **HTTP 客户端**: Axios 1.13.2
 
 ### 后端 (soulstranded-backend)
@@ -73,10 +73,13 @@ soulstranded/
 
 ### 环境要求
 
-- Node.js ^20.19.0 || >=22.12.0
-- Rust 1.70+
+- Node.js ^20.19.0 || >=22.12.0（mise 固定 24.21.0）
+- pnpm 12.4.1（mise 固定）
+- Rust 1.98+（Edition 2024，mise 固定 1.98.1）
 - MySQL 8.0+
 - Redis 6+
+
+> 前后端工具链版本分别由 `soulstranded-frontend/mise.toml`、`soulstranded-backend/mise.toml` 声明，执行 `mise install` 一键安装。
 
 ### 安装依赖
 
