@@ -82,7 +82,7 @@ AVATAR_UPLOAD_DIR=./uploads/avatars
 
 ### 前置要求
 
-- Rust 1.70+
+- Rust 1.98+（Edition 2024，建议用 mise 管理：`mise install`）
 - MySQL 8.0+
 - Redis 6+
 
