@@ -1,17 +1,13 @@
 #!/bin/bash
 set -e
 
-# Usage: ./deploy.sh <username> <password> [target]
+# Usage: ./deploy.sh [target]
 #   target: all | frontend | backend   (default: all)
+#
+# Authentication is handled by SSH keys. Configure a host alias named
+# "soulstranded" in ~/.ssh/config pointing at the server (see README.md).
 
-username=$1
-password=$2
-target=${3:-all}
-
-if [ -z "$username" ] || [ -z "$password" ]; then
-    echo "Usage: $0 <username> <password> [all|frontend|backend]"
-    exit 1
-fi
+target=${1:-all}
 
 case "$target" in
     all|frontend|backend) ;;
@@ -22,33 +18,30 @@ case "$target" in
 esac
 
 PROJECT_DIR=$(pwd)
-HOST="101.201.31.56"
-SSH_OPTS="-o StrictHostKeyChecking=no"
+HOST="soulstranded"
 
 build_backend() {
     echo "Building backend..."
-    cd "$PROJECT_DIR/soulstranded-backend"
-    cargo build --release
+    (cd "$PROJECT_DIR/soulstranded-backend" && cargo build --release)
 }
 
 build_frontend() {
     echo "Building frontend..."
-    cd "$PROJECT_DIR/soulstranded-frontend"
-    pnpm run build
+    (cd "$PROJECT_DIR/soulstranded-frontend" && pnpm run build)
 }
 
 deploy_backend() {
     echo "Deploying backend..."
-    sshpass -p "$password" ssh $SSH_OPTS "$username@$HOST" "rm -rf /opt/soulstranded-backend/soulstranded-backend"
-    sshpass -p "$password" scp "$PROJECT_DIR/soulstranded-backend/target/release/soulstranded-backend" "$username@$HOST:/opt/soulstranded-backend/soulstranded-backend"
-    sshpass -p "$password" ssh $SSH_OPTS "$username@$HOST" "systemctl restart soulstranded-backend"
+    ssh "$HOST" "rm -rf /opt/soulstranded-backend/soulstranded-backend"
+    scp "$PROJECT_DIR/soulstranded-backend/target/release/soulstranded-backend" "$HOST:/opt/soulstranded-backend/soulstranded-backend"
+    ssh "$HOST" "systemctl restart soulstranded-backend"
 }
 
 deploy_frontend() {
     echo "Deploying frontend..."
-    sshpass -p "$password" ssh $SSH_OPTS "$username@$HOST" "rm -rf /var/www/soulstranded-frontend"
-    sshpass -p "$password" scp -r "$PROJECT_DIR/soulstranded-frontend/dist" "$username@$HOST:/var/www/soulstranded-frontend"
-    sshpass -p "$password" ssh $SSH_OPTS "$username@$HOST" "systemctl restart nginx"
+    ssh "$HOST" "rm -rf /var/www/soulstranded-frontend"
+    scp -r "$PROJECT_DIR/soulstranded-frontend/dist" "$HOST:/var/www/soulstranded-frontend"
+    ssh "$HOST" "systemctl restart nginx"
 }
 
 case "$target" in

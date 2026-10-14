@@ -184,41 +184,66 @@ cargo clippy
 
 ## 部署
 
-项目提供一键部署脚本 [deploy.sh](./deploy.sh)，用于构建前后端并上传到远程服务器。
+项目提供一键部署脚本 [deploy.sh](./deploy.sh)，用于构建前后端并上传到远程服务器。部署认证基于 SSH 密钥，脚本中不包含任何账号或密码。
 
 ### 前置要求
 
-- 本地已安装 `sshpass`
 - 本地已安装 Rust 工具链（`cargo`）和 Node.js/pnpm
+- 本地已生成部署专用 SSH 密钥，并已在 `~/.ssh/config` 中配置主机别名 `soulstranded`
 - 远程服务器已配置好 systemd 服务：`soulstranded-backend` 和 `nginx`
 - 远程服务器目标目录已存在：
   - `/opt/soulstranded-backend/`
   - `/var/www/soulstranded-frontend/`
+
+### 首次配置（仅需一次）
+
+```bash
+# 1. 生成部署专用密钥
+ssh-keygen -t ed25519 -f ~/.ssh/soulstranded_deploy -C "deploy@soulstranded" -N ""
+
+# 2. 将公钥安装到远程服务器（需输入一次服务器密码）
+ssh-copy-id -i ~/.ssh/soulstranded_deploy.pub root@<server_ip>
+
+# 3. 在本地 ~/.ssh/config 追加主机别名
+cat >> ~/.ssh/config <<'EOF'
+
+Host soulstranded
+    HostName <server_ip>
+    User root
+    IdentityFile ~/.ssh/soulstranded_deploy
+    IdentitiesOnly yes
+EOF
+```
+
+配置完成后可用 `ssh soulstranded "echo ok"` 验证是否免密登录。
 
 ### 使用方法
 
 在项目根目录执行：
 
 ```bash
-./deploy.sh <username> <password>
+./deploy.sh [all|frontend|backend]
 ```
 
-例如：
+`target` 默认为 `all`，例如仅部署前端：
 
 ```bash
-./deploy.sh root your_password
+./deploy.sh frontend
 ```
 
 ### 部署流程
 
 1. 使用 `cargo build --release` 构建后端
 2. 使用 `pnpm run build` 构建前端
-3. 通过 `sshpass` + `scp` 上传可执行文件和静态资源到远程服务器
+3. 通过 SSH Key + `scp` 上传可执行文件和静态资源到远程服务器
 4. 远程重启 `soulstranded-backend` 和 `nginx` 服务
 
 ### 安全建议
 
-当前脚本通过命令行参数传递服务器密码，仅适合个人或受信任环境使用。生产环境建议改用 SSH Key 认证，并移除 `sshpass` 和 `StrictHostKeyChecking=no` 相关逻辑。
+- 部署凭据由 SSH 密钥管理，私钥保存在本地 `~/.ssh` 目录，不会进入仓库
+- 保持 `StrictHostKeyChecking` 默认开启，依赖 `known_hosts` 校验服务器指纹
+- 建议为服务器创建专用部署用户，并通过 `sudoers` 仅授权重启 `soulstranded-backend` 和 `nginx` 的权限
+- 可进一步在 `authorized_keys` 中通过 `from="<your_ip>"` 限制密钥来源
 
 ## API 接口
 
